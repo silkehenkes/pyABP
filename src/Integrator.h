@@ -2,7 +2,7 @@
 #define INTEGRATOR_H
 
 #include "RNG.h"
-#include "System.h"
+#include "Particle.h"
 
 class Integrator {
 	private:
@@ -14,12 +14,16 @@ class Integrator {
 		double mu; //1/zeta, mobility
 		double v0;
 		double Dr; 
+		double dt;
+		double sqrtdt;
 		
 	public:
-		Integrator(double _mu, double _v0, double _Dr, int _seed);
+		// default constructor for System
+		//Integrator() { }
+		Integrator(double _mu, double _v0, double _Dr, int _seed, double dt);
 		~Integrator();
 		
-		void update(double dt);
+		void update(Particle p);
 		double DMAX; // carrying the current max distance around, for neighbourlist rebuild;
 };
 

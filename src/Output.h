@@ -6,8 +6,8 @@
 
 class Output {
 private:
-	void Output(Parameters _param);
-	void ~Output();
+	Output(Parameters _param);
+	~Output();
 	
 public:
 	void writeText(vector <Particle> _particles, string* _filename);

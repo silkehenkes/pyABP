@@ -2,10 +2,16 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
+#include <cmath>
+// debug printing
+#include <iostream>
+using namespace std;
+
 // Particle is a class containing the 3 degrees of freedom x y and angle
+// this is scarcely more than a struct, make all members public
 class Particle {
 	
-	private:
+	public:
 		int index;
 		double x; // x position
 		double y; // y position
@@ -15,10 +21,9 @@ class Particle {
 		double fy; // total y force
 		double torque; // total torque
 	
-	public:
 		Particle(int _index, double _x, double _y, double _theta, double _R);
 		//Particle(Particle _particle); // copy constructor - do I need to do this manually?
-		~Particle();
+		~Particle() { } // nothing fancy in there
 		void printDebug();
 		void wrap(double L);
 };

@@ -11,10 +11,12 @@ private:
 	double L; // periodic boundary conditions
 	
 public:
-	Interaction(double k);
+	// default constructor (for System)
+	//Interaction() { }
+	Interaction(double k, double L);
 	~Interaction();
-	double force ( Particle _i, Particle _j, char comp);
-	double torque ( Particle _i, Particle _j);
+	double force ( Particle _i, Particle _j, int updatewhich);
+	double torque ( Particle _i, Particle _j,int updatewhich) { } // no deterministic torques in ABPs
 	double wrap(double dx);
 };
 

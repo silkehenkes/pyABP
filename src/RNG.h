@@ -7,8 +7,10 @@
 class RNG {
 	
 public:
+	// default constructor ...
+	//RNG() {}
 	RNG(int seed);
-	~RNG() { }
+	~RNG();
 	
 	// normal distribution with mean mu and standard deviation sigma
 	double normal(double _mu,double _sigma);

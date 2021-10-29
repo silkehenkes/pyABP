@@ -7,29 +7,29 @@
 #include "Interaction.h"
 #include "NeighbourList.h"
 #include "RNG.h"
-namespace std
+//namespace std
 
 //#include <pybind11/pybind11.h>
 
 
 #include <vector>
 #include <cmath>
+//#include <memory> // For std::shared_ptr
 
 //namespace py = pybind11;
 //using namespace pybind11::literals;
 
 
 
-class System 
-{
+class System {
 	
 	private:
 		Parameters param;
 		std::vector<Particle> particles;
-		RNG randini;
-		Interaction inter;
-		Integrator grator;
-		NeighbourList neighbours;
+		RNG *randini;
+		Interaction *inter;
+		Integrator *grator;
+		NeighbourList *neighbours;
 		
 		// keep geometry in here for simplicity
 		double L;

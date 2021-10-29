@@ -1,6 +1,6 @@
 # include "System.h"
 
-void main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	
 	Parameters param;
 	
@@ -24,6 +24,11 @@ void main(int argc, char* argv[]) {
 	param.saveText = true; // save as text file
 	param.saveVTK = true; // save as vtk file
 	
-	sys = new System(param);
-	sys.step1();
+	System *sys = new System(param);
+	// equivalent using better pointers
+	//std::shared_ptr<System> sys;
+	//sys = std::make_shared<System>(param);
+	sys->step1();
+	
+	return 0;
 }

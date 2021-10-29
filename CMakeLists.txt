@@ -21,21 +21,22 @@ include(${VTK_USE_FILE}) # include vtk libs
 ########################################
 
 ####### Actual source files: located in src #########
-SET(INCLUDE_DIRS "${PYABP_SOURCE_DIR}/src")
-include_directories(${INCLUDE_DIRS})
-file(GLOB INCLUDE_DIRS_SRCS ${INCLUDE_DIRS}/*.cpp)
-file(GLOB INCLUDE_DIRS_HDRS ${INCLUDE_DIRS}/*.h)
-file(GLOB SOURCES "src/*.cpp") #add source files
+#SET(INCLUDE_DIRS "${PYABP_SOURCE_DIR}/src")
+#include_directories(${INCLUDE_DIRS})
+#file(GLOB INCLUDE_DIRS_SRCS ${INCLUDE_DIRS}/*.cpp)
+#file(GLOB INCLUDE_DIRS_HDRS ${INCLUDE_DIRS}/*.h)
+#file(GLOB include "${PYABP_SOURCE_DIR}/src/*.h")
+#file(GLOB sources "${PYABP_SOURCE_DIR}/src/*.cpp") #add source files
+file(GLOB include "src/*.h")
+file(GLOB sources "src/*.cpp") #add source files
 ##############################################
 
 ########## Linking and naming the module #######
 #target_link_libraries(pyABP PRIVATE ${VTK_LIBRARIES}) #link VTK libs
+#target_link_libraries(pyABP PRIVATE ${AJM_LIBS})
 
 # Add executable target for library demo.
-add_executable(
-    pyABP_debug
-    ${CMAKE_SOURCE_DIR}/src/main.cpp
-)
+add_executable(pyABP ${sources} ${include})
 
 ########### ADD PYBIND SUPPORT  ###############
 # On Ubuntu 18 where pybind is *still* broken

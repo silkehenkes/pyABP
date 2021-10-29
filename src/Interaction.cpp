@@ -1,36 +1,35 @@
 # include "Interaction.h"
 
-
-Interaction::Interaction(double k): k:k L:L { }
+Interaction::Interaction(double k, double L): k(k), L(L) { }
 
 // force (repulsive), comp is 0 for x and 1 for y (not using vectors here, inefficient)
-double Interaction::force(Particle i, Particle j, char comp) {
+double Interaction::force(Particle i, Particle j, int updatewhich) {
 	double dx = wrap(j.x - i.x);
 	double dy = wrap(j.y - i.y);
 	double rij = sqrt(dx*dx + dy*dy);
 	double delta = i.R+j.R - rij;
+	double fx = 0.0;
+	double fy = 0.0;
 	if (delta>0.0) {
-		if (comp == 'x') {
-			return - k*delta*dx/rij;
-		}
-		else if (comp == 'y') {
-			return -k*delta*dy/rij;
-		}
-		else {
-			std::cout << "Error: unkwnown component, returning 0!" << endl;
-			return 0.0;
-		}
+		fx = -k*delta*dx/rij;
+		fy = -k*delta*dy/rij;
 	}
-	else {
-		return 0.0;
+	// update forces in particle here
+	// 0 for particle i, 1 for particle j, anything else no update
+	if (updatewhich == 0) {
+		i.fx += fx;
+		i.fy += fy;
+	}
+	else if (updatewhich == 1) {
+		j.fx += -fx;
+		j.fy += -fy;
 	}
 }
 		
 	
-double Interaction::torque ( Particle _i, Particle _j) {
-	// no deterministic torques in ABPs
-	return 0.0;
-}
+//double Interaction::torque ( Particle _i, Particle _j, int updatewhich) {
+//	// no deterministic torques in ABPs
+//}
 
 double Interaction::wrap(double dx) {
 	if (dx > 0.5*L) {
