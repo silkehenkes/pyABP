@@ -15,8 +15,8 @@ public:
 	//Interaction() { }
 	Interaction(double k, double L);
 	~Interaction();
-	double force ( Particle _i, Particle _j, int updatewhich);
-	double torque ( Particle _i, Particle _j,int updatewhich) { } // no deterministic torques in ABPs
+	double force (Particle & _i, Particle & _j, int updatewhich);
+	double torque (Particle & _i, Particle & _j,int updatewhich) { } // no deterministic torques in ABPs
 	double wrap(double dx);
 };
 

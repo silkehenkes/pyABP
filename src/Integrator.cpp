@@ -6,7 +6,7 @@ Integrator::Integrator(double mu, double v0, double Dr, int seed, double dt): mu
 	sqrtdt = sqrt(dt);
 }
 
-void Integrator::update(Particle p) {
+void Integrator::update(Particle & p) {
 	// Step 2: ABP update
 	double dx = dt*(v0*cos(p.theta) + p.fx);
 	double dy = dt*(v0*sin(p.theta) + p.fy);

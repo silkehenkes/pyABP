@@ -1,6 +1,13 @@
-# include "System.h"
 
-int main(int argc, char* argv[]) {
+#include <pybind11/pybind11.h>
+
+#include "System.h"
+
+
+namespace py = pybind11;
+using namespace pybind11::literals;
+
+int notmain() {
 	
 	Parameters param;
 	
@@ -39,3 +46,27 @@ int main(int argc, char* argv[]) {
 	
 	return 0;
 }
+	
+
+PYBIND11_MODULE(pyABP, m) {
+	py::class_<Idiots>(m,"Idiots")
+		.def(py::init<>());
+		
+	py::class_<System>(m, "System")
+ 		.def(py::init<>());
+}
+
+// PYBIND11_MODULE(pyABP, m) {
+// // 	py::class_<System>(m, "System")
+// // 		.def(py::init<>())
+// // 		.def("step", &System::step)
+// // 		.def("output", &System::output);
+// 	// something idiotic
+// 	
+// 	py::class_<Idiots>(m,"Idiots")
+// 		def(py::init<>());
+// 		
+// 	//m.def("notmain", &notmain, "calling the main from here");
+// }
+
+//.def(py::init<py::dict &>())

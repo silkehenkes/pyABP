@@ -1,4 +1,8 @@
 # Debugging ABP script
+# Where to look for the module:
+import sys
+sys.path.append("./build") 
+
 import pyABP
 
 #// geometry and size
@@ -27,22 +31,26 @@ params={}
 params["N"]=10
 params["L"]=10.0
 params["dt"]=0.01
-params["Nsteps"]=100
+params["Nsteps"]=10
 params["freq"]=1
 params["seed"]=1
 params["mu"]=1.0
 params["Dr"]=0.1
 params["v0"]=0.1
 params["k"]=1.0
-params["poly"]=0.3
+params["poly"]=0.01
 params["saveText"]=True
 params["saveVTK"]=True
 
 # set up system
-sys = pyABP.system(params)
+#sys = pyABP.system(params)
+#sys = pyABP.system()
 # run system
-nsave = int(param["Nsteps"]/param["freq"]
-for k in range(nsave):
-	sys.step(params["freq"])
-	sys.output(params["saveText"],params["saveVTK"])
-	print("Ran and saved after " + params["freq"] + " steps, total at " + str(k*params["freq"]))
+nsave = int(params["Nsteps"]/params["freq"])
+print(params)
+for k in range(1):
+	print("starting!")
+	pyABP.notmain()
+	#sys.step(params["freq"])
+	#sys.output(params["saveText"],params["saveVTK"])
+	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str(k*params["freq"]))

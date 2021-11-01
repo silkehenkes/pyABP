@@ -11,7 +11,9 @@ vector<int> NeighbourList::getNeighbours(Particle p) {
 	// terrible! debug only
 	int N = 10;
 	for (int k=0; k< N; k++) {
-		neighs.push_back(k);
+		if (k!= p.index) {
+			neighs.push_back(k);
+		}
 	}
 	return neighs;
 }

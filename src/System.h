@@ -9,15 +9,11 @@
 #include "RNG.h"
 //namespace std
 
-//#include <pybind11/pybind11.h>
-
 
 #include <vector>
 #include <cmath>
 //#include <memory> // For std::shared_ptr
 
-//namespace py = pybind11;
-//using namespace pybind11::literals;
 
 
 
@@ -36,27 +32,29 @@ class System {
 		
 	public:
 		// All to be mirrored for the python piece
-		System(Parameters _param);
+		System();
+		//System(Parameters _param);
 // 		System(py::dict& _parameters);
 		//void System();
 		// Since I have not figured out how to pass a python dictionary ... in pieces here
 		~System();
 		
 		void InitialiseRandom();
-		void step(int _nsteps);
-		void step1();
+		void step(int _nsteps); //, bool debug = true);
+		void step1(bool debug);
 		void output(int _kind);
 		
 	
 };
-/*
-PYBIND11_MODULE(pyABP, m) {
-	py::class_<System>(m, "System")
-        //.def(py::init<py::dict &>())
-		.def(py::init<>())
-        .def("step", &System::step)
-        .def("output", &System::output)
-}
-*/
+
+class Idiots {
+		
+	public:
+		bool isidiot;
+		Idiots();
+	//	~Idiots();
+};
+
+
 
 #endif 
