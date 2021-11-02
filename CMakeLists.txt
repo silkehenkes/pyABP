@@ -22,12 +22,6 @@ project (pyABP)
 ########################################
 
 ####### Actual source files: located in src #########
-#SET(INCLUDE_DIRS "${PYABP_SOURCE_DIR}/src")
-#include_directories(${INCLUDE_DIRS})
-#file(GLOB INCLUDE_DIRS_SRCS ${INCLUDE_DIRS}/*.cpp)
-#file(GLOB INCLUDE_DIRS_HDRS ${INCLUDE_DIRS}/*.h)
-#file(GLOB include "${PYABP_SOURCE_DIR}/src/*.h")
-#file(GLOB sources "${PYABP_SOURCE_DIR}/src/*.cpp") #add source files
 file(GLOB include "src/*.h")
 file(GLOB sources "src/*.cpp") #add source files
 ##############################################
@@ -53,9 +47,13 @@ pybind11_add_module(pyABP ${sources} ${include}) #makes a python module by using
 
 
 # Add executable target for library demo.
-# get rid of bindings.cpp and all of its pybind mess
-#list(REMOVE_ITEM sources "${CMAKE_CURRENT_SOURCE_DIR}/src/bindings.cpp")
-#add_executable(cppABP ${sources} ${include})
+# because life is weird when you're python
+find_package(PythonLibs REQUIRED)
+include_directories(${PYTHON_INCLUDE_DIRS})
+
+add_executable(cppABP ${sources} ${include})
+
+target_link_libraries(cppABP ${PYTHON_LIBRARIES})
 
 #force output binary to have name CCCpy.so
 #set_target_properties(pyABP PROPERTIES OUTPUT_NAME pyABP)
