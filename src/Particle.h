@@ -5,6 +5,8 @@
 #include <cmath>
 // debug printing
 #include <iostream>
+// real printing
+#include <fstream>
 using namespace std;
 
 // Particle is a class containing the 3 degrees of freedom x y and angle
@@ -22,9 +24,9 @@ class Particle {
 		double torque; // total torque
 	
 		Particle(int _index, double _x, double _y, double _theta, double _R);
-		//Particle(Particle _particle); // copy constructor - do I need to do this manually?
 		~Particle() { } // nothing fancy in there
 		void printDebug();
+		void printFile(ofstream & _outfile);
 		void wrap(double L);
 };
 

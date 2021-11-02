@@ -9,8 +9,8 @@ int main(int argc, char* argv[]) {
 	
 	// dynamics
 	param.dt = 0.01; // time step
-	param.Nsteps = 100; // number of time steps
-	param.freq = 1; // saving frequency
+	//param.Nsteps = 100; // number of time steps
+	//param.freq = 1; // saving frequency
 	param.seed = 1;
 	
 	// ABPs
@@ -21,13 +21,14 @@ int main(int argc, char* argv[]) {
 	param.poly = 0.01; // polydispersity of particles (mean 1 hardcoded for now)
 	
 	// options
-	param.saveText = true; // save as text file
-	param.saveVTK = true; // save as vtk file
+	param.verbose = true;
+	//param.saveText = true; // save as text file
+	//param.saveVTK = true; // save as vtk file
 	
 	cout << "starting system " << endl;
 	
-	//System *sys = new System(param);
-	System *sys = new System();
+	System *sys = new System(param);
+	//System *sys = new System();
 	
 	cout << "done with system " << endl;
 	// equivalent using better pointers
@@ -35,7 +36,7 @@ int main(int argc, char* argv[]) {
 	//sys = std::make_shared<System>(param);
 	//sys->step1();
 // 	sys->step(10,true);
-	sys->step(10,true);
+	sys->step(10);
 	
 	return 0;
 }

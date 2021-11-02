@@ -3,17 +3,23 @@
 
 NeighbourList::NeighbourList(vector<Particle> particles) {
 	// to be implemented
-	cout << "Need to implement neighbour list" << endl;
+	cout << "Need to implement neighbour list properly" << endl;
+	// default version ... everybody is everybody's neighbour
+	// and that stays fixed throughout the simulation
+	vector <int> neighs;
+	for (int i = 0; i< particles.size(); i++) { neighs.push_back(particles[i].index); }
+	for (int i = 0; i< particles.size(); i++) {
+		neighbours.push_back(neighs);
+	}
+		
 }
 
 vector<int> NeighbourList::getNeighbours(Particle p) {
-	vector<int> neighs;
-	// terrible! debug only
-	int N = 10;
-	for (int k=0; k< N; k++) {
-		if (k!= p.index) {
-			neighs.push_back(k);
-		}
-	}
+	// general neighbours
+	vector<int> neighs = neighbours[p.index];
+	// kick self out (no divisions: i is at position i in here
+	// remove once the propern neighbour list is constructed
+	neighs.erase (neighs.begin() + p.index);
+	
 	return neighs;
 }

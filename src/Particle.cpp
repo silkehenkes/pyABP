@@ -32,5 +32,9 @@ void Particle::wrap(double L) {
 }
 
 void Particle::printDebug() {
-	cout << "Particle " << index << ", x " << x << ", y " << y << ", theta " << theta << ", R " << R << ", fx " << fx << ", fy " << fy << ", torque " << torque << endl;
+	cout << "Particle " << index << ", x " << x << ", y " << y << ", theta " << theta <<  ", fx " << fx << ", fy " << fy << ", torque " << torque << ", R " << R << endl;
+}
+
+void Particle::printFile(ofstream & outfile) {
+	outfile << index << "\t " << x << "\t" << y << "\t" << theta <<  "\t" << fx << "\t" << fy << "\t" << torque << "\t " << R << endl;
 }

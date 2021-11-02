@@ -2,6 +2,8 @@
 # Where to look for the module:
 import sys
 sys.path.append("./build") 
+import os
+import shutil
 
 import pyABP
 
@@ -28,30 +30,47 @@ import pyABP
 #bool saveVTK; // save as vtk file
 	
 params={}
-params["N"]=10
+# system
+params["N"]=100
 params["L"]=10.0
+
+# dynamics
 params["dt"]=0.01
-params["Nsteps"]=10
-params["freq"]=10
 params["seed"]=1
+
+# ABPs
 params["mu"]=1.0
 params["Dr"]=0.1
 params["v0"]=0.1
+#// Interaction
 params["k"]=1.0
 params["poly"]=0.01
+
+# C++ internal: debugging output?
+params["verbose"]=False
+
+# Python script options only
+params["Nsteps"]=10000
+params["freq"]=100
 params["saveText"]=True
 params["saveVTK"]=True
 
+print(params)
+
 # set up system
-#sys = pyABP.system(params)
-thisSystem = pyABP.System()
+thisSystem = pyABP.System(params)
 # run system
 nsave = int(params["Nsteps"]/params["freq"])
-print(params)
-for k in range(1):
-	print("starting!")
-	pyABP.notmain()
-	print("Trying the class now!")
-	thisSystem.step(params["freq"],True)
-	#sys.output(params["saveText"],params["saveVTK"])
-	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str(k*params["freq"]))
+
+# make test output directory. Delete previous version first
+shutil.rmtree("test") 
+os.mkdir('test')
+
+
+for k in range(nsave):
+	thisSystem.step(params["freq"])
+	# basic output (text so far)
+	filename = 'test/data'+str(k)+'.dat'
+	# void output(string filename, bool _saveText, bool _saveVTP);
+	thisSystem.output(filename,params["saveText"],params["saveVTK"])
+	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str((k+1)*params["freq"]))

@@ -2,54 +2,41 @@
 #include "System.h"
 #include "Parameters.h"
 
-//System::System(Parameters param): param(param) {
-// System::System(py::dict& parameters) {
-System::System() {
-	// first unwrap the parameters from the dictionary and construct our parameter struct
-	// to be debugged ...
-// 	// geometry and size
-// 	param.N = parameters["N"]; // Number of particles
-// 	param.L = parameters["L"]; // system size
-// 	
-// 	// dynamics
-// 	param.dt = parameters["dt"]; // time step
-// 	param.Nsteps = parameters["Nsteps"]; // number of time steps
-// 	param.freq = parameters["freq"]; // saving frequency
-// 	param.seed = parameters["seed"];
-// 	
-// 	// ABPs
-// 	param.mu = parameters["mu"]; // mobility
-// 	param.Dr = parameters["Dr"]; // rotational diffusion constant
-// 	param.v0 = parameters["v0"]; // self-propulsion velocity
-// 	param.k = parameters["k"]; // interaction stiffness
-// 	param.poly = parameters["poly"]; // polydispersity of particles (mean 1 hardcoded for now)
-// 	
-// 	// options
-// 	param.saveText = parameters["saveText"]; // save as text file
-// 	param.saveVTK = parameters["saveVTK"]; // save as vtk file
+// System constructor for calls through pybind. Uses C++11 constructor delegation
+System::System(py::dict& parameters): System(Caster(parameters)){
+	// this functions as a test, simultaneously
+	if (param.verbose) {
+		cout << "Initialised system with parameters from python script!" << endl;
+	}
+}
 	
-	
-	
-	param.N = 10; // Number of particles
-	param.L = 10.0; // system size
+// transfer parameters out of dictionary into C++ struct (done the pedestrian way here)
+Parameters System::Caster(py::dict& parameters) {
+	Parameters param;
+	param.N = parameters["N"].cast<int>(); // Number of particles
+	param.L = parameters["L"].cast<double>(); // system size
 	
 	// dynamics
-	param.dt = 0.01; // time step
-	param.Nsteps = 100; // number of time steps
-	param.freq = 1; // saving frequency
-	param.seed = 1;
+	param.dt = parameters["dt"].cast<double>(); // time step
+	param.seed = parameters["seed"].cast<int>(); // random seed
 	
 	// ABPs
-	param.mu = 1.0; // mobility
-	param.Dr = 0.1; // rotational diffusion constant
-	param.v0 = 0.1; // self-propulsion velocity
-	param.k = 1.0; // interaction stiffness
-	param.poly = 0.01; // polydispersity of particles (mean 1 hardcoded for now)
+	param.mu =  parameters["dt"].cast<double>();  // mobility
+	param.Dr =  parameters["Dr"].cast<double>();  // rotational diffusion constant
+	param.v0 =  parameters["v0"].cast<double>();  // self-propulsion velocity
+	param.k =  parameters["k"].cast<double>();  // interaction stiffness
+	param.poly =  parameters["poly"].cast<double>();  // polydispersity of particles (mean 1 hardcoded for now)
 	
-	// options
-	param.saveText = true; // save as text file
-	param.saveVTK = true; // save as vtk file
+	// Internal options
+	param.verbose = parameters["verbose"].cast<bool>();
 	
+	return param;
+}
+	
+// System constructor for calls from main within C++
+// Gets called by the python version after parameters have been converted to struct form
+System::System(Parameters param0): param(param0) {
+	// first unwrap the parameters from the dictionary and construct our parameter struct
 	
 	// NOT doing this using an initalise list
 	// also NOT wanting pointers here
@@ -74,12 +61,39 @@ System::System() {
 	// create Neighbourlist
 	neighbours = new NeighbourList(particles);
 	cout << "done with neighbourlist " << endl;
+	
+	// create output object
+	writeout = new Output(param);
 }
+
+// Not good code here and only there as a last resort while debugging
+System::System() {
+	
+	param.N = 10; // Number of particles
+	param.L = 10.0; // system size
+	
+	// dynamics
+	param.dt = 0.01; // time step
+	param.seed = 1;
+	
+	// ABPs
+	param.mu = 1.0; // mobility
+	param.Dr = 0.1; // rotational diffusion constant
+	param.v0 = 0.1; // self-propulsion velocity
+	param.k = 1.0; // interaction stiffness
+	param.poly = 0.01; // polydispersity of particles (mean 1 hardcoded for now)
+	
+	// options
+	param.verbose = true;
+	
+	// terrible things happen here
+	this->~System();
+	new (this) System(param);
+}
+	
 	
 void System::InitialiseRandom() {
 	// actually set up system
-	//particles = std::vector<Particle>(0); //init the particle vector 
-	// L = param.L; // convenience
 	for (int i = 0; i < param.N; i++) {
 		// random initial positions and angles
 		double x = param.L*(randini->uniform()-0.5); // between -L/2 and L/2
@@ -90,26 +104,23 @@ void System::InitialiseRandom() {
 	}	
 }
 
+
 // Multiple stepping: mirrored in pybind
-// void System::step( int nsteps,bool debug) {
-// 	for (int k=0; k< nsteps; k++){
-// 		cout << " Starting step " << k << endl;
-// 		step1(debug);
-// 	}
-// }
-void System::step( int nsteps, bool debug) {
+void System::step( int nsteps) {
 	for (int k=0; k< nsteps; k++){
-		cout << " Starting step " << k << endl;
-		step1(debug);
+		if (param.verbose) {
+			cout << " Starting step " << k << endl;
+		}
+		step1();
 	}
 }
 
-void System::step1 (bool debug) {
+void System::step1 () {
 	// local variables
 	vector<int> neighs;
 	
 	// debug: print everybody
-	if (debug) {
+	if (param.verbose) {
 		cout << "Starting positions, angles, forces and torques" << endl;
 		for (int i = 0; i < param.N; i++) {
 			particles[i].printDebug();
@@ -124,17 +135,14 @@ void System::step1 (bool debug) {
 		particles[i].fy = 0.0;
 		particles[i].torque = 0.0;
 		neighs = neighbours->getNeighbours(particles[i]);
-// 		for (int j: neighs)
-// 			cout << j << ' ';
+ 		//for (int j: neighs)
+ 		//	cout << j << ' ';
 		//cout << endl;
 		// compute forces and torques
 		// get updated from inside inter. '0' means update first particle, '1' would be 2nd particle
 		for (int j: neighs) {
 			inter->force(particles[i],particles[j],0);
 			inter->torque(particles[i],particles[j],0);
-// 			particles[i].fx += fx;
-// 			particles[i].fy += fy;
-// 			particles[i].torque += torque;
 		}
 	}
 	// loop through particles
@@ -150,24 +158,18 @@ void System::step1 (bool debug) {
 }
 
 	
-
-void System::output( int kind) {
+// write to either text or vtk, but not both at the same time, with given string name
+void System::output(string filename, bool saveText, bool saveVTP) {
 	
 	// pretty crude
-	if (kind==0) {
-		// output to text file
+	// else if is important since else we overwrite what we just did
+	if (saveText) {
+		writeout->writeText(particles,filename); 
 	}
-	else if (kind==1) {
-		// output to vtp file
+	else if (saveVTP) {
+		writeout->writeVTP(particles,filename);
 	}
-	else {
-		std:cout << "Unknown output type, doing nothing!";
-	}
-}
-
-Idiots::Idiots() {
-	isidiot = true;
-	cout << " Are we printing this? " << endl;
+		
 }
 
 	

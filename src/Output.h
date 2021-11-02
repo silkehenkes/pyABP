@@ -3,15 +3,21 @@
 
 #include "Parameters.h"
 #include "Particle.h"
+#include <vector>
+#include <iostream>
+#include <fstream>
 
 class Output {
-private:
+public:
 	Output(Parameters _param);
 	~Output();
 	
-public:
-	void writeText(vector <Particle> _particles, string* _filename);
-	void writeVTP(vector <Particle> _particles, string* _filename);
+
+	// Syntax: pass particle information by non-modifyable reference 
+	// text csv file output
+	void writeText(vector <Particle> & _particles, string _filename);
+	// vtp output (still empty)
+	void writeVTP(vector <Particle> &_particles, string _filename) {}
 };
 
 #endif

@@ -18,10 +18,8 @@ class Integrator {
 		double sqrtdt;
 		
 	public:
-		// default constructor for System
-		//Integrator() { }
 		Integrator(double _mu, double _v0, double _Dr, int _seed, double dt);
-		~Integrator();
+		~Integrator() { }
 		
 		void update(Particle & p);
 		double DMAX; // carrying the current max distance around, for neighbourlist rebuild;

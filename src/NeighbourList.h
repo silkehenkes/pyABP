@@ -11,10 +11,8 @@ private:
 	vector < vector <int>> neighbours;
 	
 public:
-	// default constructor for system.cpp constructor
-	//NeighbourList() { }
 	NeighbourList( vector<Particle> _particles);
-	~NeighbourList();
+	//~NeighbourList() { }
 	
 	vector<int> getNeighbours(Particle _particle);
 };

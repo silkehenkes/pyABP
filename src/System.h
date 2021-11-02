@@ -6,26 +6,30 @@
 #include "Integrator.h"
 #include "Interaction.h"
 #include "NeighbourList.h"
+#include "Output.h"
 #include "RNG.h"
-//namespace std
+
 
 
 #include <vector>
 #include <cmath>
-//#include <memory> // For std::shared_ptr
 
-
+#include <Python.h>
+#include <pybind11/pybind11.h>
+namespace py = pybind11;
+//using namespace pybind11::literals;
 
 
 class System {
 	
 	private:
 		Parameters param;
-		std::vector<Particle> particles;
+		vector<Particle> particles;
 		RNG *randini;
 		Interaction *inter;
 		Integrator *grator;
 		NeighbourList *neighbours;
+		Output *writeout;
 		
 		// keep geometry in here for simplicity
 		double L;
@@ -33,31 +37,20 @@ class System {
 	public:
 		// All to be mirrored for the python piece
 		System();
-		//System(Parameters _param);
-		//System(py::dict& _parameters);
-		//void System();
-		// Since I have not figured out how to pass a python dictionary ... in pieces here
+		System(Parameters _param);
+		System(py::dict& _parameters);
+		Parameters Caster(py::dict& _parameters);
+		
 		// pybind is sensitive to this not being done right yet!!
 		//~System();
 		
 		void InitialiseRandom();
-		void step(int _nsteps, bool debug = true);
-		void step1(bool debug);
-		void output(int _kind);
+		void step(int _nsteps);
+		void step1();
+		void output(string filename, bool _saveText, bool _saveVTP);
 		
 	
 };
-
-class Idiots {
-	private:
-		bool isidiot;
-		
-	public:
-		
-		Idiots();
-	//	~Idiots();
-};
-
 
 
 #endif 

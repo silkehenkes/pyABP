@@ -9,8 +9,8 @@ struct Parameters {
 	
 	// dynamics
 	double dt; // time step
-	int Nsteps; // number of time steps
-	int freq; // saving frequency
+	//int Nsteps; // number of time steps
+	//int freq; // saving frequency
 	int seed; // RNG seed
 	
 	// ABPs
@@ -22,8 +22,9 @@ struct Parameters {
 	double poly; // polydispersity
 	
 	// options
-	bool saveText; // save as text file
-	bool saveVTK; // save as vtk file
+	bool verbose; // whether to print debugging output
+	//bool saveText; // save as text file
+	//bool saveVTK; // save as vtk file
 	
 };
 

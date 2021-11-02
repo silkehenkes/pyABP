@@ -54,8 +54,8 @@ pybind11_add_module(pyABP ${sources} ${include}) #makes a python module by using
 
 # Add executable target for library demo.
 # get rid of bindings.cpp and all of its pybind mess
-list(REMOVE_ITEM sources "${CMAKE_CURRENT_SOURCE_DIR}/src/bindings.cpp")
-add_executable(cppABP ${sources} ${include})
+#list(REMOVE_ITEM sources "${CMAKE_CURRENT_SOURCE_DIR}/src/bindings.cpp")
+#add_executable(cppABP ${sources} ${include})
 
 #force output binary to have name CCCpy.so
 #set_target_properties(pyABP PROPERTIES OUTPUT_NAME pyABP)
