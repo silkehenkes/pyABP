@@ -30,50 +30,50 @@ System::System() {
 	
 	
 	
-// 	param.N = 10; // Number of particles
-// 	param.L = 10.0; // system size
-// 	
-// 	// dynamics
-// 	param.dt = 0.01; // time step
-// 	param.Nsteps = 100; // number of time steps
-// 	param.freq = 1; // saving frequency
-// 	param.seed = 1;
-// 	
-// 	// ABPs
-// 	param.mu = 1.0; // mobility
-// 	param.Dr = 0.1; // rotational diffusion constant
-// 	param.v0 = 0.1; // self-propulsion velocity
-// 	param.k = 1.0; // interaction stiffness
-// 	param.poly = 0.01; // polydispersity of particles (mean 1 hardcoded for now)
-// 	
-// 	// options
-// 	param.saveText = true; // save as text file
-// 	param.saveVTK = true; // save as vtk file
+	param.N = 10; // Number of particles
+	param.L = 10.0; // system size
+	
+	// dynamics
+	param.dt = 0.01; // time step
+	param.Nsteps = 100; // number of time steps
+	param.freq = 1; // saving frequency
+	param.seed = 1;
+	
+	// ABPs
+	param.mu = 1.0; // mobility
+	param.Dr = 0.1; // rotational diffusion constant
+	param.v0 = 0.1; // self-propulsion velocity
+	param.k = 1.0; // interaction stiffness
+	param.poly = 0.01; // polydispersity of particles (mean 1 hardcoded for now)
+	
+	// options
+	param.saveText = true; // save as text file
+	param.saveVTK = true; // save as vtk file
 	
 	
-// 	// NOT doing this using an initalise list
-// 	// also NOT wanting pointers here
-// 	// ergo need default constructors for those guys
-// 	// system class random  number generator
-// 	randini = new RNG(param.seed);
-// 	
-// 	// Create interaction
-// 	cout << "k " << param.k << " L " << param.L <<  endl;
-// 	inter= new Interaction(param.k,param.L);
-// 	cout << "done with interaction " << endl;
-// 	// Create dynamics
-// 	int dynseed = static_cast<int>(param.N*randini->uniform());
-// 	cout << dynseed << endl;
-// 	grator = new Integrator(param.mu, param.v0, param.Dr, dynseed, param.dt);
-// 	cout << "done with integrator " << endl;
-// 	
-// 	// initalise particles: currently random as only option
-// 	InitialiseRandom();
-// 	cout << "done with initialisation " << endl;
-// 	
-// 	// create Neighbourlist
-// 	neighbours = new NeighbourList(particles);
-// 	cout << "done with neighbourlist " << endl;
+	// NOT doing this using an initalise list
+	// also NOT wanting pointers here
+	// ergo need default constructors for those guys
+	// system class random  number generator
+	randini = new RNG(param.seed);
+	
+	// Create interaction
+	cout << "k " << param.k << " L " << param.L <<  endl;
+	inter= new Interaction(param.k,param.L);
+	cout << "done with interaction " << endl;
+	// Create dynamics
+	int dynseed = static_cast<int>(param.N*randini->uniform());
+	cout << dynseed << endl;
+	grator = new Integrator(param.mu, param.v0, param.Dr, dynseed, param.dt);
+	cout << "done with integrator " << endl;
+	
+	// initalise particles: currently random as only option
+	InitialiseRandom();
+	cout << "done with initialisation " << endl;
+	
+	// create Neighbourlist
+	neighbours = new NeighbourList(particles);
+	cout << "done with neighbourlist " << endl;
 }
 	
 void System::InitialiseRandom() {
@@ -97,10 +97,10 @@ void System::InitialiseRandom() {
 // 		step1(debug);
 // 	}
 // }
-void System::step( int nsteps) {
+void System::step( int nsteps, bool debug) {
 	for (int k=0; k< nsteps; k++){
 		cout << " Starting step " << k << endl;
-		step1(true);
+		step1(debug);
 	}
 }
 
@@ -110,7 +110,7 @@ void System::step1 (bool debug) {
 	
 	// debug: print everybody
 	if (debug) {
-		cout << "Updated positions, angles, forces and torques" << endl;
+		cout << "Starting positions, angles, forces and torques" << endl;
 		for (int i = 0; i < param.N; i++) {
 			particles[i].printDebug();
 		}

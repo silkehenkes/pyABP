@@ -32,7 +32,7 @@ params["N"]=10
 params["L"]=10.0
 params["dt"]=0.01
 params["Nsteps"]=10
-params["freq"]=1
+params["freq"]=10
 params["seed"]=1
 params["mu"]=1.0
 params["Dr"]=0.1
@@ -44,13 +44,14 @@ params["saveVTK"]=True
 
 # set up system
 #sys = pyABP.system(params)
-#sys = pyABP.system()
+thisSystem = pyABP.System()
 # run system
 nsave = int(params["Nsteps"]/params["freq"])
 print(params)
 for k in range(1):
 	print("starting!")
 	pyABP.notmain()
-	#sys.step(params["freq"])
+	print("Trying the class now!")
+	thisSystem.step(params["freq"],True)
 	#sys.output(params["saveText"],params["saveVTK"])
 	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str(k*params["freq"]))

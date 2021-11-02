@@ -41,32 +41,32 @@ int notmain() {
 	//std::shared_ptr<System> sys;
 	//sys = std::make_shared<System>(param);
 	//sys->step1();
-// 	sys->step(10,true);
-	sys->step(10);
+ 	sys->step(10,true);
+	//sys->step(10);
 	
 	return 0;
 }
 	
 
-PYBIND11_MODULE(pyABP, m) {
-	py::class_<Idiots>(m,"Idiots")
-		.def(py::init<>());
-		
-	py::class_<System>(m, "System")
- 		.def(py::init<>());
-}
-
 // PYBIND11_MODULE(pyABP, m) {
-// // 	py::class_<System>(m, "System")
-// // 		.def(py::init<>())
-// // 		.def("step", &System::step)
-// // 		.def("output", &System::output);
-// 	// something idiotic
-// 	
+// 	py::class_<Idiots>(m,"Idiots")
+// 		.def(py::init<>());
+// 		
+// 	py::class_<System>(m, "System")
+//  		.def(py::init<>());
+// }
+
+PYBIND11_MODULE(pyABP, m) {
+	py::class_<System>(m, "System")
+		.def(py::init<>())
+		.def("step", &System::step);
+	//	.def("output", &System::output);
+	// something idiotic
+	
 // 	py::class_<Idiots>(m,"Idiots")
 // 		def(py::init<>());
-// 		
-// 	//m.def("notmain", &notmain, "calling the main from here");
-// }
+		
+	m.def("notmain", &notmain, "calling the main from here");
+}
 
 //.def(py::init<py::dict &>())

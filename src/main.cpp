@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 	//sys = std::make_shared<System>(param);
 	//sys->step1();
 // 	sys->step(10,true);
-	sys->step(10);
+	sys->step(10,true);
 	
 	return 0;
 }

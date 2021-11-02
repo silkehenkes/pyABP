@@ -34,13 +34,14 @@ class System {
 		// All to be mirrored for the python piece
 		System();
 		//System(Parameters _param);
-// 		System(py::dict& _parameters);
+		//System(py::dict& _parameters);
 		//void System();
 		// Since I have not figured out how to pass a python dictionary ... in pieces here
-		~System();
+		// pybind is sensitive to this not being done right yet!!
+		//~System();
 		
 		void InitialiseRandom();
-		void step(int _nsteps); //, bool debug = true);
+		void step(int _nsteps, bool debug = true);
 		void step1(bool debug);
 		void output(int _kind);
 		
@@ -48,9 +49,11 @@ class System {
 };
 
 class Idiots {
+	private:
+		bool isidiot;
 		
 	public:
-		bool isidiot;
+		
 		Idiots();
 	//	~Idiots();
 };
