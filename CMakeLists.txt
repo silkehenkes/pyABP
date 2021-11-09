@@ -33,8 +33,8 @@ file(GLOB sources "src/*.cpp") #add source files
 
 ########### ADD PYBIND SUPPORT  ###############
 # On Ubuntu 18 where pybind is *still* broken
-set(PYBIND11_PYTHON_VERSION 3.6)
-add_subdirectory(pybind11)
+# set(PYBIND11_PYTHON_VERSION 3.6)
+add_subdirectory(include/pybind11)
 #add_subdirectory(/home/sh18581/Documents/Crowds/CCCpy/build/pybind11)
 # otherwise
 #find_package(pybind11 REQUIRED)
@@ -48,12 +48,12 @@ pybind11_add_module(pyABP ${sources} ${include}) #makes a python module by using
 
 # Add executable target for library demo.
 # because life is weird when you're python
-find_package(PythonLibs REQUIRED)
-include_directories(${PYTHON_INCLUDE_DIRS})
+# find_package(PythonLibs REQUIRED)
+# include_directories(${PYTHON_INCLUDE_DIRS})
 
-add_executable(cppABP ${sources} ${include})
+# add_executable(cppABP ${sources} ${include})
 
-target_link_libraries(cppABP ${PYTHON_LIBRARIES})
+# target_link_libraries(cppABP ${PYTHON_LIBRARIES})
 
 #force output binary to have name CCCpy.so
 #set_target_properties(pyABP PROPERTIES OUTPUT_NAME pyABP)
