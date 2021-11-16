@@ -7,6 +7,15 @@
 #include <iostream>
 #include <fstream>
 
+// VTK libraries
+#include <vtkSmartPointer.h>
+#include <vtkPoints.h>
+#include <vtkPointData.h>
+#include <vtkDoubleArray.h>
+#include <vtkPolyData.h>
+#include <vtkXMLPolyDataWriter.h>
+
+
 class Output {
 public:
 	Output(Parameters _param);
@@ -16,8 +25,8 @@ public:
 	// Syntax: pass particle information by non-modifyable reference 
 	// text csv file output
 	void writeText(vector <Particle> & _particles, string _filename);
-	// vtp output (still empty)
-	void writeVTP(vector <Particle> &_particles, string _filename) {}
+	// vtp output 
+	void writeVTP(vector <Particle> &_particles, string _filename);
 };
 
 #endif

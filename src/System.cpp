@@ -158,16 +158,16 @@ void System::step1 () {
 }
 
 	
-// write to either text or vtk, but not both at the same time, with given string name
-void System::output(string filename, bool saveText, bool saveVTP) {
+// write to either text or vtk, or both, first filename is text, second is vtp
+void System::output(string filename1, string filename2, bool saveText, bool saveVTP) {
 	
 	// pretty crude
 	// else if is important since else we overwrite what we just did
 	if (saveText) {
-		writeout->writeText(particles,filename); 
+		writeout->writeText(particles,filename1); 
 	}
-	else if (saveVTP) {
-		writeout->writeVTP(particles,filename);
+	if (saveVTP) {
+		writeout->writeVTP(particles,filename2);
 	}
 		
 }

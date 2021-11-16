@@ -47,7 +47,7 @@ class System {
 		void InitialiseRandom();
 		void step(int _nsteps);
 		void step1();
-		void output(string filename, bool _saveText, bool _saveVTP);
+		void output(string filename1, string filename2, bool _saveText, bool _saveVTP);
 		
 	
 };

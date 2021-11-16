@@ -70,7 +70,8 @@ os.mkdir('test')
 for k in range(nsave):
 	thisSystem.step(params["freq"])
 	# basic output (text so far)
-	filename = 'test/data'+str(k)+'.dat'
+	filename1 = 'test/data'+str(k)+'.dat'
+	filename2 = 'test/data'+str(k)+'.vtp'
 	# void output(string filename, bool _saveText, bool _saveVTP);
-	thisSystem.output(filename,params["saveText"],params["saveVTK"])
+	thisSystem.output(filename1,filename2,params["saveText"],params["saveVTK"])
 	print("Ran and saved after " + str(params["freq"]) + " steps, total at " + str((k+1)*params["freq"]))

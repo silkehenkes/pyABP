@@ -17,8 +17,8 @@ project (pyABP)
 
 
 ########## ADD VTK LIBRARIES #########
-#find_package(VTK REQUIRED) #add VTK libs
-#include(${VTK_USE_FILE}) # include vtk libs
+find_package(VTK REQUIRED) #add VTK libs
+include(${VTK_USE_FILE}) # include vtk libs
 ########################################
 
 ####### Actual source files: located in src #########
@@ -35,7 +35,6 @@ file(GLOB sources "src/*.cpp") #add source files
 # On Ubuntu 18 where pybind is *still* broken
 # set(PYBIND11_PYTHON_VERSION 3.6)
 add_subdirectory(include/pybind11)
-#add_subdirectory(/home/sh18581/Documents/Crowds/CCCpy/build/pybind11)
 # otherwise
 #find_package(pybind11 REQUIRED)
 
@@ -47,16 +46,8 @@ pybind11_add_module(pyABP ${sources} ${include}) #makes a python module by using
 
 
 # Add executable target for library demo.
-# because life is weird when you're python
-# find_package(PythonLibs REQUIRED)
-# include_directories(${PYTHON_INCLUDE_DIRS})
 
 # add_executable(cppABP ${sources} ${include})
 
-# target_link_libraries(cppABP ${PYTHON_LIBRARIES})
-
-#force output binary to have name CCCpy.so
-#set_target_properties(pyABP PROPERTIES OUTPUT_NAME pyABP)
-#set_target_properties(pyABP PROPERTIES SUFFIX .so)
 
 
