@@ -19,6 +19,7 @@ project (pyABP)
 ########## ADD VTK LIBRARIES #########
 find_package(VTK REQUIRED) #add VTK libs
 include(${VTK_USE_FILE}) # include vtk libs
+set(VTK_PYTHON_VERSION=3) # give VTK the flag that we're using python3
 ########################################
 
 ####### Actual source files: located in src #########
@@ -43,6 +44,7 @@ add_subdirectory(include/pybind11)
 
 ########## Making the module ########
 pybind11_add_module(pyABP ${sources} ${include}) #makes a python module by using all specified source files 
+target_link_libraries(pyABP PRIVATE ${VTK_LIBRARIES}) #link VTK libs
 
 
 # Add executable target for library demo.

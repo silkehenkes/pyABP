@@ -22,7 +22,9 @@ class Integrator {
 		~Integrator() { }
 		
 		void update(Particle & p);
-		double DMAX; // carrying the current max distance around, for neighbourlist rebuild;
+		double Dmax; // carrying the current max distance around, for neighbourlist rebuild;
+		
+		void resetDmax();
 };
 
 #endif

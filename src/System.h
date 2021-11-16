@@ -31,8 +31,8 @@ class System {
 		NeighbourList *neighbours;
 		Output *writeout;
 		
-		// keep geometry in here for simplicity
-		double L;
+		double cutoff; // Neigbhourlist cutoff (2*(R+poly))
+		double maxmove;
 		
 	public:
 		// All to be mirrored for the python piece

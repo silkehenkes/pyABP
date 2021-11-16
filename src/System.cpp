@@ -59,7 +59,18 @@ System::System(Parameters param0): param(param0) {
 	cout << "done with initialisation " << endl;
 	
 	// create Neighbourlist
-	neighbours = new NeighbourList(particles);
+	// now we now the cutoff length for the NeighbourList
+	double cutoff0 = 2*(1.0+param.poly);
+	cout << cutoff0 << endl;
+	// Except we want an integer number inside the box
+	// nbox = L/cutoff0, rounded down, recompute cutoff = L/nbox
+	double nbox = floor(param.L/cutoff0);
+	cout << nbox << endl;
+	cutoff = param.L/nbox;
+	cout << cutoff << endl;
+	// how far we've maximally moved since last rebuild
+	maxmove = 0.0;
+	neighbours = new NeighbourList(particles,cutoff,param.L);
 	cout << "done with neighbourlist " << endl;
 	
 	// create output object
@@ -99,7 +110,7 @@ void System::InitialiseRandom() {
 		double x = param.L*(randini->uniform()-0.5); // between -L/2 and L/2
 		double y = param.L*(randini->uniform()-0.5); // between -L/2 and L/2
 		double theta = 2*M_PI*(randini->uniform()-0.5); // between -pi to pi
-		double R = randini->normal(1.0,param.poly); // normally distributed around 1 with width poly
+		double R = 1.0+ param.poly*(randini->uniform()-0.5); // uniformly distributed between (1-poly) and (1+poly)
 		particles.push_back(Particle(i,x,y,theta,R));
 	}	
 }
@@ -147,12 +158,29 @@ void System::step1 () {
 	}
 	// loop through particles
 	// Euler update
+	grator->resetDmax();
 	for (int i = 0; i < param.N; i++) {
 		grator->update(particles[i]);
 	}
+	maxmove += grator->Dmax;
+	//cout << maxmove << endl;
 	// periodic boundary conditions
 	for (int i = 0; i < param.N; i++) {
 		particles[i].wrap(param.L);
+	}
+	
+	// now check if the NeighbourList needs to be redone
+	// if any one particle has moved by more than half cutoff
+	// prefactor is 0.25, as list is square so diagonal is fine
+	// and another factor of 1/2 as the other particle could be on direct collision course
+	if (maxmove > 0.25*cutoff) {
+		cout << "Rebuilding NeighbourList!" << endl;
+		// rebuild list
+		neighbours->reBuildList(particles);
+		// start over here
+		grator->resetDmax();
+		// and we have now not moved since last build
+		maxmove=0.0;
 	}
 	
 }

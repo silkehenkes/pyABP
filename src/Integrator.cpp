@@ -2,7 +2,7 @@
 
 
 Integrator::Integrator(double mu, double v0, double Dr, int seed, double dt): mu(mu), v0(v0), Dr(Dr), dynrng(seed), dt(dt) { 
-	DMAX = 0.0;
+	Dmax = 0.0;
 	sqrtdt = sqrt(dt);
 }
 
@@ -15,6 +15,10 @@ void Integrator::update(Particle & p) {
 	p.theta += sqrtdt*2*Dr*dynrng.normal();
 		
 	// keeping track of maximum move for neighbourlist
-	if (fabs(dx)> DMAX) { DMAX = fabs(dx); }
-	if (fabs(dy)> DMAX) { DMAX = fabs(dy); }
+	if (fabs(dx)> Dmax) { Dmax = fabs(dx); }
+	if (fabs(dy)> Dmax) { Dmax = fabs(dy); }
+}
+
+void Integrator::resetDmax() {
+	 Dmax = 0.0;
 }

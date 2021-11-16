@@ -31,8 +31,8 @@ import pyABP
 	
 params={}
 # system
-params["N"]=100
-params["L"]=10.0
+params["N"]=2000
+params["L"]=100.0
 
 # dynamics
 params["dt"]=0.01
@@ -40,18 +40,18 @@ params["seed"]=1
 
 # ABPs
 params["mu"]=1.0
-params["Dr"]=0.1
+params["Dr"]=0.001
 params["v0"]=0.1
 #// Interaction
 params["k"]=1.0
-params["poly"]=0.01
+params["poly"]=0.2
 
 # C++ internal: debugging output?
 params["verbose"]=False
 
 # Python script options only
-params["Nsteps"]=10000
-params["freq"]=100
+params["Nsteps"]=100000
+params["freq"]=1000
 params["saveText"]=True
 params["saveVTK"]=True
 
