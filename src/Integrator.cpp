@@ -8,8 +8,12 @@ Integrator::Integrator(double mu, double v0, double Dr, int seed, double dt): mu
 
 void Integrator::update(Particle & p) {
 	// Step 2: ABP update
-	double dx = dt*(v0*cos(p.theta) + p.fx);
-	double dy = dt*(v0*sin(p.theta) + p.fy);
+	// set velocities straight here
+	p.vx = v0*cos(p.theta) + mu*p.fx;
+	p.vy = v0*sin(p.theta) + mu*p.fy;
+	// then update positions
+	double dx = p.vx*dt;
+	double dy = p.vy*dt;
 	p.x += dx;
 	p.y += dy;
 	p.theta += sqrtdt*2*Dr*dynrng.normal();

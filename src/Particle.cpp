@@ -6,6 +6,8 @@
 Particle::Particle(int index, double x, double y, double theta, double R): index(index), x(x), y(y), theta(theta), R(R) {
 	fx = 0.0; // total x force
 	fy = 0.0; // total y force
+	vx = 0.0; // x velocity (recording variable)
+	vy = 0.0; // y velocity (recording variable)
 	torque = 0.0; // total torque
 }
 
@@ -32,9 +34,9 @@ void Particle::wrap(double L) {
 }
 
 void Particle::printDebug() {
-	cout << "Particle " << index << ", x " << x << ", y " << y << ", theta " << theta <<  ", fx " << fx << ", fy " << fy << ", torque " << torque << ", R " << R << endl;
+	cout << "Particle " << index << ", x " << x << ", y " << y << ", theta " << theta <<  ", vx " << vx << ", vy " << vy << ", torque " << torque << ", R " << R << endl;
 }
 
 void Particle::printFile(ofstream & outfile) {
-	outfile << index << "\t " << x << "\t" << y << "\t" << theta <<  "\t" << fx << "\t" << fy << "\t" << torque << "\t " << R << endl;
+	outfile << index << "\t " << x << "\t" << y << "\t" << theta <<  "\t" << vx << "\t" << vy << "\t" << torque << "\t " << R << endl;
 }

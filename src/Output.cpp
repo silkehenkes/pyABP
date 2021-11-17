@@ -29,9 +29,9 @@ void Output::writeVTP(vector <Particle> & particles, string filename) {
     ids->SetNumberOfComponents(1);
     ids->SetName("Index");
 
-    vtkSmartPointer<vtkDoubleArray> force = vtkSmartPointer<vtkDoubleArray>::New();
-    force->SetNumberOfComponents(3);
-    force->SetName("Force");
+    vtkSmartPointer<vtkDoubleArray> velocity = vtkSmartPointer<vtkDoubleArray>::New();
+    velocity->SetNumberOfComponents(3);
+    velocity->SetName("Velocity");
 	
 	vtkSmartPointer<vtkDoubleArray> director = vtkSmartPointer<vtkDoubleArray>::New();
     director->SetNumberOfComponents(3);
@@ -47,8 +47,8 @@ void Output::writeVTP(vector <Particle> & particles, string filename) {
 		// id
 		ids->InsertNextValue(particles[i].index);
 		// velocity / force
-		double vel[3] = {particles[i].fx, particles[i].fy,0};
-        force->InsertNextTuple(vel);
+		double vel[3] = {particles[i].vx, particles[i].vy,0};
+        velocity->InsertNextTuple(vel);
 		// director
 		double dir[3] = {cos(particles[i].theta), sin(particles[i].theta),0};
         director->InsertNextTuple(dir);
@@ -59,7 +59,7 @@ void Output::writeVTP(vector <Particle> & particles, string filename) {
 	
 	polydata->SetPoints(points);
     polydata->GetPointData()->AddArray(ids);
-    polydata->GetPointData()->AddArray(force);
+    polydata->GetPointData()->AddArray(velocity);
 	polydata->GetPointData()->AddArray(director);
 	polydata->GetPointData()->AddArray(radius);
 	

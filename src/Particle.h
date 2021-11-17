@@ -22,6 +22,9 @@ class Particle {
 		double fx; // total x force
 		double fy; // total y force
 		double torque; // total torque
+		// not dynamical variable, but safekeeping
+		double vx;
+		double vy;
 	
 		Particle(int _index, double _x, double _y, double _theta, double _R);
 		~Particle() { } // nothing fancy in there
