@@ -21,7 +21,7 @@ Parameters System::Caster(py::dict& parameters) {
 	param.seed = parameters["seed"].cast<int>(); // random seed
 	
 	// ABPs
-	param.mu =  parameters["dt"].cast<double>();  // mobility
+	param.mu =  parameters["mu"].cast<double>();  // mobility
 	param.Dr =  parameters["Dr"].cast<double>();  // rotational diffusion constant
 	param.v0 =  parameters["v0"].cast<double>();  // self-propulsion velocity
 	param.k =  parameters["k"].cast<double>();  // interaction stiffness
