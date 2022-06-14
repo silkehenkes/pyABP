@@ -15,7 +15,7 @@ class Integrator {
 		double v0;
 		double Dr; 
 		double dt;
-		double sqrtdt;
+		double noiseamp;
 		
 	public:
 		Integrator(double _mu, double _v0, double _Dr, int _seed, double dt);
