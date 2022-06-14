@@ -3,7 +3,7 @@
 
 Integrator::Integrator(double mu, double v0, double Dr, int seed, double dt): mu(mu), v0(v0), Dr(Dr), dynrng(seed), dt(dt) { 
 	Dmax = 0.0;
-	sqrtdt = sqrt(dt);
+	noiseamp = sqrt(2*Dr*dt);
 }
 
 void Integrator::update(Particle & p) {
@@ -16,7 +16,7 @@ void Integrator::update(Particle & p) {
 	double dy = p.vy*dt;
 	p.x += dx;
 	p.y += dy;
-	p.theta += sqrtdt*2*Dr*dynrng.normal();
+	p.theta += noiseamp*dynrng.normal();
 		
 	// keeping track of maximum move for neighbourlist
 	if (fabs(dx)> Dmax) { Dmax = fabs(dx); }
